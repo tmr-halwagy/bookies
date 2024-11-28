@@ -1,5 +1,3 @@
----
-
 # Bookies
 
 **Tagline**: *"BLANK"*
