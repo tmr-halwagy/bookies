@@ -8,12 +8,10 @@ Bookies is an online platform for book lovers to connect, share reviews, and dis
 
 ## Features
 
+- **Browse Recommended Books:** Explore book recommendations based on a simple reccomendation system. Discover hidden gems and popular titles that match your interests.
+- **Search for Books:** Easily find books by title, author, genre, or keyword. 
 - **Write Reviews**: Share your thoughts on books and help others find their next great read.
 - **Rate Books**: Rate books on a scale to express your opinion and discover highly-rated titles.
-- **Create Book Libraries**: Organize your books by genre, reading status, or custom categories.
-- **Follow Authors & Reviewers**: Stay updated on the latest reviews from your favorite authors or other Bookies reviewers.
-- **Join Book Clubs**: Connect with other readers in shared book clubs and discuss your latest reads.
-- **Track Reading Statistics**: View your reading progress, including books read, average ratings, and more.
 
 ---
 
@@ -63,10 +61,9 @@ This project is still in development (beta version). To set up the project local
    - Start the React development server:
    
      ```bash
-     npm start
+     npm run dev
      ```
 
-4. Make sure your Google API credentials are set up for OAuth authentication.
 
 ---
 
@@ -86,7 +83,10 @@ This project is not open for contributions at the moment.
 
 - **Improved user profiles**: Customizable profiles for users to track their reading history.
 - **Enhanced book club features**: Adding chat functionality and book club events.
-- **Mobile app**: Plans for a companion mobile app for reading on the go.
+- **Create Book Libraries**: Organize your books by genre, reading status, or custom categories.
+- **Follow Authors & Reviewers**: Stay updated on the latest reviews from your favorite authors or other Bookies reviewers.
+- **Join Book Clubs**: Connect with other readers in shared book clubs and discuss your latest reads.
+- **Track Reading Statistics**: View your reading progress, including books read, average ratings, and more.
 
 ---
 
@@ -94,6 +94,3 @@ This project is not open for contributions at the moment.
 
 For questions or feedback, feel free to open an issue in the GitHub repository.
 
----
-
-Let me know if you need any changes or additions!
