@@ -43,13 +43,21 @@ This project is still in development (beta version). To set up the project local
    cd bookies
    ```
 
-2.  Run database migrations:
+2. Set Up Backend:
+
+   - Navigate to the Django project folder and install dependencies:
+
+     ```bash
+     pip install -r requirements.txt
+     ```
+
+   - Run database migrations:
 
      ```bash
      python manage.py migrate
      ```
 
-3. Set up the frontend:
+4. Set up the frontend:
 
    - Navigate to the React project folder and install dependencies:
    
