@@ -26,7 +26,7 @@ const BookSearch = () => {
   };
 
   return (
-    <div>
+    <div className="">
       <form onSubmit={handleSearch}>
         <input
           type="text"
@@ -40,7 +40,9 @@ const BookSearch = () => {
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
         />
-        <button type="submit">Search</button>
+        <button type="submit" className="text-sm">
+          Search
+        </button>
       </form>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
