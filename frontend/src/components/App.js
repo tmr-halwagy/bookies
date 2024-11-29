@@ -4,8 +4,10 @@ import BookSearch from "./SearchPage";
 
 const App = () => {
   return (
-    <div>
-      <h1>Home Page</h1>
+    <div className="container mx-auto">
+      <h1 className="text-3xl font-bold underline text-blue-900">
+        Home Page!!
+      </h1>
       <BookSearch />
     </div>
   );
