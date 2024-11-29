@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import ResultList from "../components/ResultList";
 
-const BookSearch = () => {
+const SearchPage = () => {
   const [search, setSearch] = useState("");
   const [author, setAuthor] = useState("");
   const [books, setBooks] = useState([]);
@@ -26,51 +27,28 @@ const BookSearch = () => {
   };
 
   return (
-    <div className="">
+    <div className="flex flex-col justify-center items-center">
       <form onSubmit={handleSearch}>
         <input
           type="text"
           placeholder="Search by title"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          className="m-2 px-4"
         />
-        <input
-          type="text"
-          placeholder="Search by author"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-        />
-        <button type="submit" className="text-sm">
+        <button
+          type="submit"
+          className="text-sm bold bg-slate-500 py-2 px-3 rounded-xl text-white"
+        >
           Search
         </button>
       </form>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <div>
-        {books.length > 0 ? (
-          <ul>
-            {books.map((book, index) => (
-              <li key={index}>
-                <img src={book.thumbnail} alt={book.title} />
-                <h3>{book.title}</h3>
-                <p>Authors: {book.authors}</p>
-                <a
-                  href={book.infoLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  More Info
-                </a>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No books found.</p>
-        )}
-      </div>
+      <ResultList books={books} />
     </div>
   );
 };
 
-export default BookSearch;
+export default SearchPage;
