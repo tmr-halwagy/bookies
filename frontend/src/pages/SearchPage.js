@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ResultList from "../components/ResultList";
+import SearchResultList from "../components/SearchResultList";
 
 const SearchPage = () => {
   const [search, setSearch] = useState("");
@@ -46,7 +46,7 @@ const SearchPage = () => {
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <ResultList books={books} />
+      <SearchResultList books={books} />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom"; // Import Link for routing
 
-const ResultCard = ({ book }) => {
+const SearchResultCard = ({ book }) => {
   return (
     <li className="grid grid-cols-1 gap-1">
       <div className="flex flex-row p-5">
@@ -22,10 +23,17 @@ const ResultCard = ({ book }) => {
           >
             More Info
           </a>
+          {/* Link to BookInfo page using the book ID */}
+          <Link
+            to={`/book/${book.id}`} // Navigate to the detailed BookInfo page
+            className="mt-2 text-blue-500"
+          >
+            View Details
+          </Link>
         </div>
       </div>
     </li>
   );
 };
 
-export default ResultCard;
+export default SearchResultCard;

@@ -23,7 +23,9 @@ def search_books(request):
     books = []
     for item in data['items']:
         volume = item.get('volumeInfo', {})
+        book_id = item.get('id', '')
         books.append({
+            'id': book_id,
             'title': volume.get('title', 'No title available'),
             'authors': ", ".join(volume.get('authors', [])),
             'thumbnail': volume.get('imageLinks', {}).get('thumbnail', ''),
@@ -31,3 +33,6 @@ def search_books(request):
         })
 
     return JsonResponse({'books': books})
+
+
+
