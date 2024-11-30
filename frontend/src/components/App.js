@@ -1,18 +1,29 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
-import BookSearch from "./SearchPage";
+import logo from './logo.svg';
+import './App.css';
+import BookList from "./BookList";
+import BookInfo from "./BookInfo";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-const App = () => {
+function App() {
   return (
-    <div className="container mx-auto">
-      <h1 className="text-3xl font-bold underline text-blue-900">
-        Home Page!!
-      </h1>
-      <BookSearch />
+    <div>
+      {/*<BookList></BookList>*/}
+      {/*  <BookInfo bookId="buc0AAAAMAAJ"></BookInfo>*/}
+
+        <Router>
+             <div className="App">
+
+                <Routes>
+                      Book List Route
+                     <Route path="/" element={<BookList />} />
+                     Book Detail Route
+                     <Route path="/book/:bookId" element={<BookInfo />} />
+                </Routes>
+             </div>
+        </Router>
+
     </div>
   );
-};
+}
 
-const appDiv = document.getElementById("app");
-const root = createRoot(appDiv);
-root.render(<App />);
+export default App;A
