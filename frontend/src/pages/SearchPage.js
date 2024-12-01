@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import SearchResultList from "../components/SearchResultList";
+import { Link } from "react-router-dom";
 
 const SearchPage = () => {
   const [search, setSearch] = useState("");
@@ -42,6 +43,7 @@ const SearchPage = () => {
         >
           Search
         </button>
+        <Link to={`/`}>Back</Link>
       </form>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
