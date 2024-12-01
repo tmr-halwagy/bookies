@@ -1,4 +1,6 @@
 from django.urls import path
+
+import google.views
 from .views import BookListView, ReviewListCreateView
 
 urlpatterns = [

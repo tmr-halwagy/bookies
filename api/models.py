@@ -6,6 +6,7 @@ class Book(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     description = models.TextField(blank=True)
+    category = models.CharField(max_length=255)
 
     def __str__(self):
         return self.title
