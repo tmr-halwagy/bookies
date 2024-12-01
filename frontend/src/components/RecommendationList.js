@@ -1,22 +1,32 @@
 import React from 'react';
+import RecommendedCategory from './RecommendedCategory';
 
 const RecommendationList = ({ booksByCategory }) => {
+    console.log('Books by Category:', booksByCategory);
     return (
         <div className="recommendation-list">
-            {Object.keys(booksByCategory).map((category) => (
-                <div key={category}>
-                    <h2>{category}</h2>
-                    <ul>
-                        {booksByCategory[category].map((book) => (
-                            <li key={book.id}>
-                                {book.title}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            ))}
+            {/* Iterate over each category and books */}
+            {Object.entries(booksByCategory).map(([category, books]) => {
+                if (!books || books.length === 0) {
+                    return (
+                        <div key={category}>
+                            <h2>{category}</h2>
+                            <p>No books available.</p>
+                        </div>
+                    );
+                }
+
+                return (
+                    <RecommendedCategory
+                        key={category}
+                        category={category}
+                        books={books} // Only pass books if it's valid
+                    />
+                );
+            })}
         </div>
     );
 };
 
 export default RecommendationList;
+

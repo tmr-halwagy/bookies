@@ -24,8 +24,7 @@ const RecommendationPage = () => {
 
                     const data = await response.json();
                     const books = data?.items || [];
-                    const sortedBooks = books.slice(0, 3)
-                    allResults[category] = sortedBooks;
+                    allResults[category] = books.slice(0, 3);
                 }
 
                 setRecommendationData(allResults);
@@ -48,10 +47,11 @@ const RecommendationPage = () => {
         return <p>Error: {error}</p>;
     }
 
+    console.log('Recommendation Data:', recommendationData);
     return (
         <div className="recommendation-page">
             <h1>Book Recommendations</h1>
-            <RecommendationList booksByCategory={recommendationData} />
+            <RecommendationList booksByCategory={recommendationData}/>
         </div>
     );
 };

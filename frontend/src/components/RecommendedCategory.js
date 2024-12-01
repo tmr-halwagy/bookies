@@ -1,13 +1,23 @@
 import React from 'react';
 
 const RecommendedCategory = ({ category, books }) => {
+    if (!books || books.length === 0) {
+        return (
+            <div className="recommended-category">
+                <h2>{category}</h2>
+                <p>No books available in this category.</p>
+            </div>
+        );
+    }
+
     return (
         <div className="recommended-category">
-            <h1>{category}</h1>
+            <h2>{category}</h2>
             <ul>
-                {books.map((book, index) => (
-                    <li key={index}>
-                        <h1>{book.title}</h1>
+                {/* Loop through the books and display each book title */}
+                {books.map((book) => (
+                    <li key={book.id}>
+                        <h3>{book.volumeInfo?.title || 'No Title Available'}</h3>
                     </li>
                 ))}
             </ul>
@@ -16,3 +26,4 @@ const RecommendedCategory = ({ category, books }) => {
 };
 
 export default RecommendedCategory;
+
