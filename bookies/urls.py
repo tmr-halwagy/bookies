@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
+
+import google.views
 from api.views import *
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
@@ -18,4 +20,5 @@ urlpatterns = [
     path('callback/', google_login_callback, name='callback'),
     path('api/auth/user/', UserDetailView.as_view(), name='user_detail'),
     path('api/google/validate_token/', validate_google_token, name='validate_token'),
+    path('home/', google.views.search_books_by_category, name='search-books-by-category'),
 ]

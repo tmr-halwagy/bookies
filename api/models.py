@@ -2,6 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 
+class Book(models.Model):
+    title = models.CharField(max_length=255)
+    author = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    category = models.CharField(max_length=255)
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  
@@ -23,11 +28,6 @@ class BookClub(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owned_clubs")
     members = models.ManyToManyField(User, through="BookClubMembership", related_name="book_clubs")
     is_private = models.BooleanField(default=False)
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name

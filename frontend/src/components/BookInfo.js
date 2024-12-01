@@ -73,7 +73,7 @@ const BookInfo = () => {
             onClick={() => navigate("/")}
             className="mt-4 text-white bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded"
           >
-            Back to Search
+            Back
           </button>
         </div>
       </div>

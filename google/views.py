@@ -1,12 +1,13 @@
 import requests
-from django.http import JsonResponse
+from django.http import JsonResponse, request, QueryDict
+from django.views.decorators.http import require_POST
+from api.models import Book
+from bookies.utlis import search_books_by_category
 from .credentials import GOOGLE_BOOKS_API_KEY, CLIENT_SECRET, CLIENT_ID
-
 
 def search_books(request):
     search_query = request.GET.get("search", "")
     author = request.GET.get("author", "")
-
     if not search_query and not author:
         return JsonResponse({'error': 'Search term or author is required.'}, status=400)
 
@@ -18,7 +19,7 @@ def search_books(request):
 
     data = response.json()
     if 'items' not in data:
-        return JsonResponse({'books': []})  
+        return JsonResponse({'books': []})
 
     books = []
     for item in data['items']:
@@ -34,5 +35,14 @@ def search_books(request):
 
     return JsonResponse({'books': books})
 
+
+@require_POST
+def search_books_by_category(request):
+    if request.method == 'POST':
+        categories = request.POST.getlist('categories')
+        results = search_books_by_category(categories)
+        return JsonResponse(results)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 
