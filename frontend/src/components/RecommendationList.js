@@ -20,7 +20,7 @@ const RecommendationList = ({ booksByCategory }) => {
                     <RecommendedCategory
                         key={category}
                         category={category}
-                        books={books} // Only pass books if it's valid
+                        books={books}
                     />
                 );
             })}
