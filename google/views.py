@@ -2,8 +2,8 @@ import requests
 from django.http import JsonResponse, request, QueryDict
 from django.views.decorators.http import require_POST
 from api.models import Book
-# from .credentials import GOOGLE_BOOKS_API_KEY, CLIENT_SECRET, CLIENT_ID
-from google.credentials import GOOGLE_BOOKS_API_KEY, CLIENT_SECRET, CLIENT_ID
+from bookies.utlis import search_books_by_category
+from .credentials import GOOGLE_BOOKS_API_KEY, CLIENT_SECRET, CLIENT_ID
 
 def search_books(request):
     search_query = request.GET.get("search", "")
@@ -24,7 +24,9 @@ def search_books(request):
     books = []
     for item in data['items']:
         volume = item.get('volumeInfo', {})
+        book_id = item.get('id', '')
         books.append({
+            'id': book_id,
             'title': volume.get('title', 'No title available'),
             'authors': ", ".join(volume.get('authors', [])),
             'thumbnail': volume.get('imageLinks', {}).get('thumbnail', ''),
@@ -34,8 +36,6 @@ def search_books(request):
     return JsonResponse({'books': books})
 
 
-from bookies.utlis import search_books_by_category
-
 @require_POST
 def search_books_by_category(request):
     if request.method == 'POST':
@@ -44,10 +44,5 @@ def search_books_by_category(request):
         return JsonResponse(results)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
-
-
-
-
-
 
 

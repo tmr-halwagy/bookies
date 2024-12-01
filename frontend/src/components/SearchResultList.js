@@ -1,13 +1,13 @@
 import React from "react";
-import ResultCard from "./ResultCard";
+import SearchResultCard from "./SearchResultCard";
 
-const ResultList = ({ books }) => {
+const SearchResultList = ({ books }) => {
   return (
     <div className="flex flex-col">
       {books.length > 0 ? (
         <ul>
           {books.map((book, index) => (
-            <ResultCard key={index} book={book} />
+            <SearchResultCard key={index} book={book} />
           ))}
         </ul>
       ) : (
@@ -17,4 +17,4 @@ const ResultList = ({ books }) => {
   );
 };
 
-export default ResultList;
+export default SearchResultList;

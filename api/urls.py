@@ -1,9 +1,14 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import BookReviewsView, BookClubMembershipViewSet, BookClubDiscussionViewSet, ReviewView, BookClubViewSet
 
-import google.views
-from .views import BookListView, ReviewListCreateView
+router = DefaultRouter()
+router.register(r'book-clubs', BookClubViewSet)
+router.register(r'book-club-memberships', BookClubMembershipViewSet)
+router.register(r'book-club-discussions', BookClubDiscussionViewSet)
 
 urlpatterns = [
-    path('books/', BookListView.as_view(), name='book-list'),
-    path('api/', ReviewListCreateView.as_view(), name='review-list-create'),
+    path('books/', BookReviewsView.as_view(), name='book-list'), 
+    path('reviews/', ReviewView.as_view(), name='review-list-create'), 
+    path('', include(router.urls)),  
 ]
