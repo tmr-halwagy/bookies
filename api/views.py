@@ -1,16 +1,25 @@
-from django.shortcuts import render, redirect
-from rest_framework import generics, permissions
-from .models import Book, Review
-from .serializers import BookSerializer, ReviewSerializer,UserSerializer
+# Django and DRF imports
+from django.shortcuts import redirect
 from django.contrib.auth.models import User
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from allauth.socialaccount.models import SocialToken, SocialAccount
-from django.contrib.auth.decorators import login_required
-from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import get_user_model
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+
+# Third-party imports
+from rest_framework.views import APIView
+from rest_framework.decorators import action
+from rest_framework import generics, status, viewsets, permissions, serializers
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+from allauth.socialaccount.models import SocialToken, SocialAccount
 import json
+
+# Local imports
+from .models import Review, BookClub, BookClubMembership, BookClubDiscussion
+from .serializers import ReviewSerializer, UserSerializer, BookClubSerializer, BookClubMembershipSerializer, BookClubDiscussionSerializer
+
 
 User = get_user_model()
 
@@ -70,15 +79,77 @@ def validate_google_token(request):
     return JsonResponse({'detail': 'Method not allowed.'}, status=405)
 
 
-class BookListView(generics.ListCreateAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
+class ReviewView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = ReviewSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request):
+        reviews = Review.objects.all()
+        serializer = ReviewSerializer(reviews, many=True)
+        return Response(serializer.data)
+    
+
+class BookReviewsView(APIView):
+    def get(self, request, google_books_id):
+        reviews = Review.objects.filter(google_books_id=google_books_id)
+        serializer = ReviewSerializer(reviews, many=True)
+        return Response(serializer.data)
+    
+
+class BookClubViewSet(viewsets.ModelViewSet):
+    queryset = BookClub.objects.all()
+    serializer_class = BookClubSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-class ReviewListCreateView(generics.ListCreateAPIView):
-    queryset = Review.objects.all()
-    serializer_class = ReviewSerializer
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+    @action(detail=True, methods=['get'])
+    def members(self, request, pk=None):
+        book_club = self.get_object()
+        memberships = BookClubMembership.objects.filter(book_club=book_club)
+        serializer = BookClubMembershipSerializer(memberships, many=True)
+        return Response(serializer.data)
+
+class BookClubMembershipViewSet(viewsets.ModelViewSet):
+    queryset = BookClubMembership.objects.all()
+    serializer_class = BookClubMembershipSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        # Automatically assign the current user to the club
+        user = self.request.user
+        book_club = serializer.validated_data['book_club']
+        if not BookClubMembership.objects.filter(user=user, book_club=book_club).exists():
+            serializer.save(user=user)
+        else:
+            raise serializers.ValidationError("User is already a member of this club.")
+
+    @action(detail=True, methods=['get'])
+    def users(self, request, pk=None):
+        membership = self.get_object()
+        user = membership.user
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+
+class BookClubDiscussionViewSet(viewsets.ModelViewSet):
+    queryset = BookClubDiscussion.objects.all()
+    serializer_class = BookClubDiscussionSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        # Automatically assign the current user as the creator of the discussion
+        serializer.save(created_by=self.request.user)
+
+    @action(detail=True, methods=['get'])
+    def book_club_discussions(self, request, pk=None):
+        book_club = self.get_object()
+        discussions = BookClubDiscussion.objects.filter(book_club=book_club)
+        serializer = BookClubDiscussionSerializer(discussions, many=True)
+        return Response(serializer.data)

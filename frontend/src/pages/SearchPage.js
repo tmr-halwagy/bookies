@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import ResultList from "../components/ResultList";
+import SearchResultList from "../components/SearchResultList";
+import { Link } from "react-router-dom";
 
 const SearchPage = () => {
   const [search, setSearch] = useState("");
@@ -27,7 +28,6 @@ const SearchPage = () => {
   };
 
   return (
-    
     <div className="flex flex-col justify-center items-center">
       <form onSubmit={handleSearch}>
         <input
@@ -43,11 +43,12 @@ const SearchPage = () => {
         >
           Search
         </button>
+        <Link to={`/`}>Back</Link>
       </form>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <ResultList books={books} />
+      <SearchResultList books={books} />
     </div>
   );
 };
