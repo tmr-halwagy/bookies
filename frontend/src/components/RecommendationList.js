@@ -1,11 +1,19 @@
 import React from 'react';
-import RecommendedCategory from './RecommendedCategory';
 
 const RecommendationList = ({ booksByCategory }) => {
     return (
         <div className="recommendation-list">
-            {booksByCategory.map((categoryBooks, index) => (
-                <RecommendedCategory key={index} category={categoryBooks.category} books={categoryBooks.books} />
+            {Object.keys(booksByCategory).map((category) => (
+                <div key={category}>
+                    <h2>{category}</h2>
+                    <ul>
+                        {booksByCategory[category].map((book) => (
+                            <li key={book.id}>
+                                {book.title}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             ))}
         </div>
     );
