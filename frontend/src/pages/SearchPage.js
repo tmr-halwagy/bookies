@@ -27,6 +27,7 @@ const SearchPage = () => {
   };
 
   return (
+    
     <div className="flex flex-col justify-center items-center">
       <form onSubmit={handleSearch}>
         <input

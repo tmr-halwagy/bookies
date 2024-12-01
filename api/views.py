@@ -40,7 +40,7 @@ def google_login_callback(request):
 
     if not social_account:
         print("No social account for user:", user)
-        return redirect('http://localhost:5173/login/callback/?error=NoSocialAccount')
+        return redirect('http://127.0.0.1:8000/login/callback/?error=NoSocialAccount')
     
     token = SocialToken.objects.filter(account=social_account, account__provider='google').first()
 
@@ -48,10 +48,10 @@ def google_login_callback(request):
         print('Google token found:', token.token)
         refresh = RefreshToken.for_user(user)
         access_token = str(refresh.access_token)
-        return redirect(f'http://localhost:5173/login/callback/?access_token={access_token}')
+        return redirect(f'http://127.0.0.1:8000/login/callback/?access_token={access_token}')
     else:
         print('No Google token found for user', user)
-        return redirect(f'http://localhost:5173/login/callback/?error=NoGoogleToken')
+        return redirect(f'http://127.0.0.1:8000/login/callback/?error=NoGoogleToken')
 
 
 @csrf_exempt
@@ -68,6 +68,7 @@ def validate_google_token(request):
         except json.JSONDecodeError:
             return JsonResponse({'detail': 'Invalid JSON.'}, status=400)
     return JsonResponse({'detail': 'Method not allowed.'}, status=405)
+
 
 class BookListView(generics.ListCreateAPIView):
     queryset = Book.objects.all()
